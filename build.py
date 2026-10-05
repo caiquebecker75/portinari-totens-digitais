@@ -4,7 +4,7 @@ import re, pathlib
 
 R = pathlib.Path(__file__).parent
 S = R / "src"
-TELAS = 22
+TELAS = 23
 
 CHROME = """
 <svg style="display:none" aria-hidden="true"><defs>
