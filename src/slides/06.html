@@ -1,22 +1,37 @@
-<section class="slide" data-part="Desenho">
+<section class="slide dark" data-part="Tecnologia">
   <div class="hd">
-    <span class="eyebrow" data-a><i>(05)</i> Simulador</span>
-    <h2 class="sm" data-a style="--d:1">Cabe no <em>totem</em>?</h2>
+    <span class="eyebrow" data-a><i>(06)</i> Rede e energia</span>
+    <h2 class="sm" data-a style="--d:1">Ninguém na loja<br>aperta <em>botão</em>.</h2>
   </div>
   <div class="mid">
-    <div class="sz">
-      <div class="sz-fig" data-a style="--d:2">
-        <svg id="szSvg" viewBox="0 0 420 600" aria-label="Totem em escala com a tela escolhida"></svg>
-      </div>
-      <div class="sz-r" data-a style="--d:3">
-        <div class="sz-ctl">
-          <div class="seg" id="szSeg">
-            <button class="sel" data-in="24">24"</button><button data-in="27">27"</button><button data-in="32">32"</button><button data-in="43">43"</button><button data-in="50">50"</button><button data-in="55">55"</button>
-          </div>
-          <div class="seg" id="szOri"><button class="sel" data-o="v">Vertical</button><button data-o="h">Horizontal</button></div>
+    <div class="ne">
+      <div class="ne-fig" data-a style="--d:2">
+        <svg viewBox="0 0 900 400" id="neSvg" aria-label="Cadeia de energia e de rede do totem">
+          <g class="ne-links">
+            <path id="lkE1" d="M110 300 H200"/><path id="lkE2" d="M290 300 H380"/><path id="lkE3" d="M470 300 H520 V250"/>
+            <path id="lkN1" d="M760 80 V130"/><path id="lkN2" d="M690 190 H610"/><path id="lkN3" d="M520 120 V150"/>
+          </g>
+          <g class="ne-nodes">
+            <g class="nd" id="ndTom"><rect x="20" y="270" width="90" height="60"/><text x="65" y="298">Tomada</text><text x="65" y="314" class="s">da loja</text></g>
+            <g class="nd" id="ndDps"><rect x="200" y="270" width="90" height="60"/><text x="245" y="298">Protetor</text><text x="245" y="314" class="s">de surto</text></g>
+            <g class="nd" id="ndNob"><rect x="380" y="270" width="90" height="60"/><text x="425" y="298">Nobreak</text><text x="425" y="314" class="s">600 VA</text></g>
+            <g class="nd big" id="ndTot"><rect x="430" y="150" width="180" height="100"/><text x="520" y="190">Totem</text><text x="520" y="210" class="s">player + tela</text><text x="520" y="228" class="s" id="ndTotS">tocando</text></g>
+            <g class="nd" id="ndRot"><rect x="690" y="150" width="140" height="80"/><text x="760" y="180">Roteador</text><text x="760" y="198" class="s" id="ndRotS">cabo · Wi-Fi · 4G</text></g>
+            <g class="nd" id="ndCld"><rect x="690" y="10" width="140" height="70"/><text x="760" y="40">Nuvem</text><text x="760" y="58" class="s">CMS + painel 75 LAB</text></g>
+            <g class="nd" id="ndCache"><rect x="440" y="60" width="160" height="60"/><text x="520" y="88">Mídia salva</text><text x="520" y="104" class="s">no próprio player</text></g>
+          </g>
+        </svg>
+        <div class="ne-btns" id="neBtns">
+          <span class="mono">Simular</span>
+          <button data-k="0">Cai a internet</button>
+          <button data-k="1">Cai a energia</button>
+          <button data-k="2">O player trava</button>
+          <button data-k="3">Loja fecha</button>
         </div>
-        <div class="sz-ver" id="szVer"></div>
-        <div class="dl" id="szData"></div>
+      </div>
+      <div class="ne-log" data-a style="--d:3">
+        <span class="mono" id="neTitle">Escolha uma falha</span>
+        <ol id="neLog"><li class="idle">Clique numa falha.</li></ol>
       </div>
     </div>
   </div>

@@ -17,10 +17,7 @@ function fit(){var s=Math.min(innerWidth/1600,innerHeight/900);if(!(s>0))s=1;sta
 addEventListener("resize",fit);fit();
 
 var slides=$$(".slide"),N=slides.length,i=0,busy=false;
-var TITLES=["18 mil horas por mês","Totens digitais Portinari","Roteiro","Leitura do desafio","Os três desenhos",
- "Simulador de tamanho","Opções de tela","Anatomia do totem","Tecnologia embarcada","Rede e energia","Recursos complementares",
- "Manutenção e suporte","Gestão remota de mídia","Mercado ou desenvolvimento próprio","Experiência touch","Painel de dados e LGPD",
- "Comparativo de cenários","Estimativa de investimento","Locação","Recomendação","Cronograma","Próximos passos","Fecho e contato"];
+var TITLES=["Totens digitais Portinari","O desafio","Os três desenhos","Tipo de tela","Anatomia do totem","Rede e energia","Gestão remota de mídia","Experiência touch","Locação","Resumo do investimento"];
 
 function chrome(){
   var dark=slides[i].classList.contains("dark");
@@ -54,20 +51,6 @@ function seg(root,cb){ // grupo de botões exclusivos
     $$("button",root).forEach(function(x){x.classList.toggle("sel",x===b)});cb(b);});
 }
 
-/* 00 abertura: 50 totens acendendo, alguns apagados */
-var opGrid=$("#opGrid"),opT=[];
-opGrid.innerHTML=new Array(51).join("<i></i>");
-ENTER[0]=function(){
-  opT.forEach(clearTimeout);opT=[];
-  var cells=$$("i",opGrid);cells.forEach(function(c){c.className=""});
-  cells.forEach(function(c,k){opT.push(setTimeout(function(){c.classList.add("lit")},300+k*28));});
-  opT.push(setTimeout(function blink(){
-    var dead=[7,23,38,44];
-    dead.forEach(function(d,j){opT.push(setTimeout(function(){cells[d].classList.remove("lit");cells[d].classList.add("dead")},j*420));});
-    opT.push(setTimeout(function(){dead.forEach(function(d){cells[d].classList.remove("dead");cells[d].classList.add("lit")});opT.push(setTimeout(blink,1400));},3400));
-  },2200));
-};
-
 /* 03 desafio */
 seg($("#dsSeg"),function(b){$("#dsCard").classList.toggle("real",b.dataset.k==="1")});
 
@@ -85,43 +68,6 @@ function dz(k){var d=DZ[k],box=$(".dz-imgs");box.classList.add("sw");
   $("#dzRead").textContent=d.read;}
 seg($("#dzSeg"),function(b){dz(+b.dataset.k)});dz(1);
 
-/* 05 simulador de tamanho */
-var PR={24:["R$ 1.500 a 2.900","R$ 3.800 a 5.800"],27:["R$ 2.000 a 3.400","R$ 4.500 a 6.500"],32:["R$ 2.500 a 3.800","R$ 5.500 a 8.000"],
-        43:["R$ 3.500 a 5.500","R$ 7.500 a 11.000"],50:["R$ 4.500 a 6.500","R$ 9.500 a 14.000"],55:["R$ 5.000 a 7.500","R$ 11.000 a 16.000"]};
-var szIn=24,szOri="v";
-function f1(n){return (Math.round(n*10)/10).toLocaleString("pt-BR")}
-function sz(){
-  var S=3.4,fl=580,cxm=210,d=szIn*2.54,L=d*0.8716,A=d*0.4903;
-  var iw=szOri==="v"?A:L, ih=szOri==="v"?L:A, mw=iw+2, mh=ih+2;
-  var need=Math.ceil(mw+4), okW=mw<=36, okH=mh<=124, ok=okW&&okH;
-  var pw=40, ptop=fl-160*S, top=20; if(mh>140-20-8) top=8;
-  var sx=cxm-mw*S/2, sy=ptop+top*S, bot=160-top-mh;
-  var o='';
-  o+='<rect class="sz-base" x="'+(cxm-35*S)+'" y="'+(fl-20*S)+'" width="'+70*S+'" height="'+20*S+'"/>';
-  o+='<path class="sz-hn" d="M'+(cxm+pw*S/2)+' '+(ptop+60*S)+' h'+(9*S)+' a'+(4*S)+' '+(4*S)+' 0 0 1 '+(4*S)+' '+(4*S)+' V'+(fl-20*S)+' H'+(cxm+pw*S/2)+'z"/>';
-  o+='<rect class="sz-st" x="'+(cxm-pw*S/2)+'" y="'+ptop+'" width="'+pw*S+'" height="'+140*S+'"/>';
-  if(!okW) o+='<rect x="'+(cxm-need*S/2)+'" y="'+ptop+'" width="'+need*S+'" height="'+140*S+'" fill="none" stroke="#D9442E" stroke-width="2" stroke-dasharray="6 5"/>';
-  o+='<rect class="sz-scr'+(ok?'':' no')+'" x="'+sx+'" y="'+sy+'" width="'+mw*S+'" height="'+mh*S+'"/>';
-  o+='<text x="'+cxm+'" y="'+(ptop+12*S)+'" text-anchor="middle" font-family="Space Grotesk" font-size="17" font-weight="500" fill="#2b2b2b">portinari</text>';
-  var dx=cxm+pw*S/2+60;
-  o+='<path class="sz-dim" d="M'+dx+' '+fl+' V'+(fl-bot*S)+' M'+(dx-6)+' '+(fl-bot*S)+' h12 M'+(dx-6)+' '+fl+' h12"/>';
-  o+='<text class="sz-t" x="'+(dx+10)+'" y="'+(fl-bot*S/2+4)+'">'+Math.round(bot)+' cm</text>';
-  o+='<path class="sz-dim" d="M'+(dx+70)+' '+fl+' V'+sy+' M'+(dx+64)+' '+sy+' h12"/>';
-  o+='<text class="sz-t" x="'+(dx+80)+'" y="'+(sy+4)+'">'+Math.round(160-top)+' cm</text>';
-  o+='<path class="sz-dim" d="M'+(cxm-pw*S/2)+' '+(ptop-16)+' h'+pw*S+' M'+(cxm-pw*S/2)+' '+(ptop-22)+' v12 M'+(cxm+pw*S/2)+' '+(ptop-22)+' v12"/>';
-  o+='<text class="sz-t" x="'+cxm+'" y="'+(ptop-24)+'" text-anchor="middle">chapa 40 cm</text>';
-  o+='<line x1="0" y1="'+fl+'" x2="420" y2="'+fl+'" stroke="#050505" stroke-width="2"/>';
-  $("#szSvg").innerHTML=o;
-  var v=$("#szVer"); v.classList.toggle("no",!ok);
-  v.innerHTML=ok?'<span class="disp">Cabe</span><p>'+(mw>34?'Justo na chapa de 40 cm.':'Com folga na chapa de 40 cm.')+'</p>'
-    :'<span class="disp">Não cabe</span><p>'+(okH?'Pede chapa de <b>'+need+' cm</b>.':'Pede outro totem.')+'</p>';
-  $("#szData").innerHTML=[["Imagem",f1(iw)+" × "+f1(ih)+" cm"],["Tela",PR[szIn][0]],["Touch",PR[szIn][1]]]
-    .map(function(r){return '<div><span class="k">'+r[0]+'</span><span class="v">'+r[1]+'</span></div>'}).join("");
-}
-seg($("#szSeg"),function(b){szIn=+b.dataset.in;sz()});
-seg($("#szOri"),function(b){szOri=b.dataset.o;sz()});
-sz();
-
 /* 06 tipos de tela */
 var TL=[
  {b:[["Brilho",30,"500 nits"],["Uso",100,"24/7"],["Garantia",100,"3 anos"],["Custo 24\"",28,"R$ 1.500 a 2.900"]],w:"Loja com luz interna. O caso Portinari."},
@@ -134,7 +80,7 @@ function tl(k){var t=TL[k];
   requestAnimationFrame(function(){requestAnimationFrame(function(){$$("#tlBars i").forEach(function(x){x.style.width=x.dataset.w+"%"})})});
   $("#tlWhen").textContent=t.w;}
 seg($("#tlList"),function(b){tl(+b.dataset.k)});tl(0);
-ENTER[6]=function(){tl(+$("#tlList .sel").dataset.k)};
+ENTER[3]=function(){tl(+$("#tlList .sel").dataset.k)};
 
 /* 07 anatomia */
 var AN=[
@@ -157,17 +103,6 @@ $$(".hs").forEach(function(h){h.addEventListener("mouseenter",function(){an(+h.d
 $("#anList").addEventListener("click",function(e){var b=e.target.closest("button");if(b)an(+b.dataset.k)});
 an(2);
 
-/* 08 player */
-var PL=[
- {pr:"R$ 0",i:"Quase não existe em 24\".",sp:["sem aparelho extra","preso ao fabricante"]},
- {pr:"R$ 450 a 1.400",i:"Essencial e Intermediário.",sp:["4 a 8 GB","liga sozinho","watchdog","atualização remota"]},
- {pr:"R$ 2.800 a 4.500",i:"Quando a prioridade é zero manutenção.",sp:["o mais estável","importado","pouco flexível"]},
- {pr:"R$ 1.500 a 2.300",i:"Interativo.",sp:["16 GB","SSD","modo quiosque","roda o catálogo"]}
-];
-function pl(k){var p=PL[k];
-  $("#plDet").innerHTML='<b class="pl-pr">'+p.pr+'</b><span class="mono">por totem</span><div class="pl-sp">'+p.sp.map(function(x){return "<span>"+x+"</span>"}).join("")+'</div><p class="pl-in"><b>Indicado</b>'+p.i+'</p>';}
-seg($("#plOpts"),function(b){pl(+b.dataset.k)});pl(1);
-
 /* 09 rede e energia */
 var NE=[
  {t:"Cai a internet",st:{lkN2:"cut",ndRot:"alt",lkN1:"alt",ndCache:"ok",lkN3:"ok",ndTot:"ok"},s:{ndRotS:"4G assumiu",ndTotS:"tocando"},
@@ -189,22 +124,7 @@ function ne(k){var n=NE[k];neT.forEach(clearTimeout);neT=[];
     li.innerHTML="<b>"+r[0]+"</b><span>"+r[1]+"</span>";ol.appendChild(li);},j*650));});
 }
 seg($("#neBtns"),function(b){ne(+b.dataset.k)});
-ENTER[9]=function(){$$("#neBtns button").forEach(function(b){b.classList.remove("sel")});$("#neBtns button").classList.add("sel");ne(0)};
-
-/* 10 opcionais */
-var OX=[
- {n:"Sensor de presença",s:"indicado",on:1,w:"Acorda a tela e conta abordagens.",hw:280,m:0},
- {n:"QR Code dinâmico",s:"indicado",on:1,w:"Leva a seleção para o celular.",hw:0,m:0},
- {n:"Câmera de audiência",s:"opcional",on:0,w:"Mede atenção, sem guardar rosto.",hw:650,m:45},
- {n:"RFID nas amostras",s:"opcional",on:0,w:"Pegou a amostra, a tela mostra o produto.",hw:1100,m:0}
-];
-function oxRender(){
-  $("#oxList").innerHTML=OX.map(function(o,k){return '<button class="oxr'+(o.on?' on':'')+'" data-k="'+k+'"><span class="sw"></span><h4>'+o.n+'<small>'+o.s+'</small></h4><p class="w">'+o.w+'</p><p class="c">'+(o.hw?brl(o.hw):"Incluso")+'<small>'+(o.m?"+ "+brl(o.m)+"/mês":"sem mensalidade")+'</small></p></button>'}).join("");
-  var hw=0,m=0;OX.forEach(function(o){if(o.on){hw+=o.hw;m+=o.m}});
-  $("#oxHw").textContent=brl(hw);$("#oxMes").textContent=brl(m);$("#ox50").textContent=brl(hw*50);
-}
-$("#oxList").addEventListener("click",function(e){var b=e.target.closest(".oxr");if(!b)return;OX[+b.dataset.k].on^=1;oxRender();});
-oxRender();
+ENTER[5]=function(){$$("#neBtns button").forEach(function(b){b.classList.remove("sel")});$("#neBtns button").classList.add("sel");ne(0)};
 
 /* 12 CMS */
 var REG=[["SP Capital",14],["SP Interior",10],["Sul",11],["Sudeste",8],["Nordeste",7]],DIAS=["Seg","Ter","Qua","Qui","Sex","Sáb","Dom"];
@@ -223,20 +143,6 @@ REG.forEach(function(r,ri){g+='<div class="r">'+r[0]+'<small>'+r[1]+' totens</sm
 $("#cmGrid").innerHTML=g;
 seg($("#cmCamps"),function(b){var k=b.dataset.k;
   $$("#cmGrid .c").forEach(function(c){var has=k==="-1"||c.dataset.a2.split(",").indexOf(k)>=0;c.classList.toggle("fade",!has);c.classList.toggle("hl",has&&k!=="-1")});});
-
-/* 13 mercado x próprio */
-var mkN=$("#mkN");
-function mk(){var n=+mkN.value;$("#mkNv").textContent=n;
-  var A=function(m){return n*66*m},B=function(m){return 120000+3500*m+5*n*m};
-  var max=Math.max(A(36),B(36))*1.08,W=640,H=300,px=function(m){return m/36*W},py=function(v){return H-v/max*H};
-  var pa="M0 "+py(A(0)),pb="M0 "+py(B(0));for(var m=1;m<=36;m++){pa+=" L"+px(m)+" "+py(A(m));pb+=" L"+px(m)+" "+py(B(m));}
-  var ax="";for(var q=12;q<36;q+=12)ax+='<line class="ax" x1="'+px(q)+'" y1="0" x2="'+px(q)+'" y2="'+H+'"/>';
-  $("#mkSvg").innerHTML=ax+'<path class="lb" d="'+pb+'"/><path class="la" d="'+pa+'"/>';
-  $("#mkA").textContent=brl(A(36));$("#mkB").textContent=brl(B(36));
-  var be=Math.ceil((120000+3500*36)/(36*(66-5)));
-  $("#mkBe").textContent=n<be?"Construir só empata com "+be+" telas":"Acima de "+be+" telas, construir compensa";
-}
-mkN.addEventListener("input",mk);mk();
 
 /* 14 protótipo touch */
 var P_LOGO="__PORTINARI__",QR='__QR__';
@@ -259,21 +165,7 @@ kx.addEventListener("click",function(e){var b=e.target.closest("[data-to]");if(b
   if(e.target.closest("#kxSend")){if($("#kxL").classList.contains("ok"))kgo(6);else{var l=$("#kxL");l.style.outline="2px solid #D9442E";setTimeout(function(){l.style.outline=""},900);}}
 });
 $("#jr").addEventListener("click",function(e){var li=e.target.closest("li");if(li){kgo(+li.dataset.s);if(+li.dataset.s===6)$("#kxL").classList.add("ok");}});
-kgo(0);ENTER[14]=function(){kgo(0)};
-
-/* 15 painel */
-var DB=[["Bruma GR",100,"412"],["Bruma SBE",78,"321"],["Linha mármores",61,"251"],["Linha madeirada",47,"194"],["Linha cimentícia",33,"136"]];
-$("#dbBars").innerHTML=DB.map(function(d){return '<div><span>'+d[0]+'</span><span class="t"><i data-w="'+d[1]+'"></i></span><span>'+d[2]+'</span></div>'}).join("");
-var FN=[["Toque na tela",100,"3.412"],["Catálogo",70,"2.380"],["Produto",38,"1.290"],["QR ou lead",15,"520"]];
-$("#dbFun").innerHTML=FN.map(function(f){return '<div data-w="'+f[1]+'"><span>'+f[0]+'</span><b>'+f[2]+'</b></div>'}).join("");
-var HR=[18,26,38,52,61,48,44,57,70,86,100,92,64,31];
-$("#dbHr").innerHTML=HR.map(function(h,k){return '<i data-h="'+h+'"><span>'+(8+k)+'h</span></i>'}).join("");
-ENTER[15]=function(){
-  $$("#dbBars i,#dbFun div").forEach(function(x){x.style.width="0"});$$("#dbHr i").forEach(function(x){x.style.height="0"});
-  setTimeout(function(){$$("#dbBars i").forEach(function(x){x.style.width=x.dataset.w+"%"});
-    $$("#dbFun div").forEach(function(x){x.style.width=Math.max(+x.dataset.w,34)+"%"});
-    $$("#dbHr i").forEach(function(x){x.style.height=x.dataset.h+"%"});},300);
-};
+kgo(0);ENTER[7]=function(){kgo(0)};
 
 /* 16 a 18: cenários e investimento */
 var SC=[
@@ -299,31 +191,23 @@ var SC=[
   risk:["Catálogo precisa de dono","Lead precisa de resposta rápida"],
   r:"Para quando o objetivo é lead e dado de interesse. Veja na tela 19 o caminho que evita comprar tela duas vezes."}
 ];
-var LY=[["Tela 24\"",["profissional","24/7 com vidro","touch capacitivo"]],["Player",["Android 4 GB","robusto 8 GB","mini PC 16 GB"]],["CMS de mídia",["com relatório","programação avançada","programação avançada"]],
-  ["Rede 4G e nobreak",[0,"contingência","contingência"]],["Monitoramento ativo",[0,"alerta e reinício remoto","alerta e reinício remoto"]],["Sensor de presença",[0,0,"acorda a tela"]],
-  ["Catálogo e leads",[0,0,"plataforma 75 LAB"]],["Painel de dados",[0,0,"dashboard e admin"]]];
-function sc(k){var s=SC[k];
-  $("#scLayers").innerHTML=LY.map(function(l,j){var v=l[1][k];return '<div class="ly'+(v?' on c'+(j<3?0:(j<5?1:2)):'')+'"><span>'+l[0]+'</span><small>'+(v||"não incluso")+'</small></div>'}).join("");
-  $("#scName").textContent=s.n;$("#scTag").textContent=s.tag;
-  $("#scNums").innerHTML=s.nums.map(function(r){return '<div><small>'+r[0]+'</small><b>'+r[1]+'</b></div>'}).join("");
-  $("#scFor").innerHTML="<b>Ideal para</b>"+s.for;
-  $("#scRisk").innerHTML=s.risk.map(function(r){return "<li>"+r+"</li>"}).join("");}
-seg($("#scSeg"),function(b){sc(+b.dataset.k)});sc(2);
-
-var ivQ=50,ivS=1;
 function tot(s,q){var kits=Math.ceil(q/10);var imp=s.hw*q+s.plat+kits*s.res;var mes=s.mes*q+s.platMes;return {imp:imp,mes:mes,kits:kits,t36:imp+36*mes};}
-function iv(){var s=SC[ivS],t=tot(s,ivQ);
-  var L=s.items.map(function(it){return '<div><span>'+it[0]+'</span><span>'+brl(it[1])+' × '+ivQ+'</span><span>'+brl(it[1]*ivQ)+'</span></div>'}).join("");
-  if(s.plat)L+='<div><span>Plataforma de catálogo e leads</span><span>projeto</span><span>'+brl(s.plat)+'</span></div>';
-  L+='<div><span>Kit reserva</span><span>'+t.kits+' kits</span><span>'+brl(t.kits*s.res)+'</span></div>';
-  L+='<div class="tt"><span>Implantação</span><span></span><span>'+brl(t.imp)+'</span></div>';
-  $("#ivLines").innerHTML=L;
-  $("#ivPer").textContent=brl(t.imp/ivQ);$("#ivTot").textContent=brl(t.imp);$("#ivMes").textContent=brl(t.mes);
-  var all=SC.map(function(x){return tot(x,ivQ).t36}),mx=Math.max.apply(null,all);
-  $("#ivCmp").innerHTML=SC.map(function(x,k){return '<div class="cb'+(k===ivS?' sel':'')+'"><span>'+x.n+'</span><span class="t"><i style="width:'+(all[k]/mx*100)+'%"></i></span><b>'+brl(all[k])+'</b></div>'}).join("");
+/* resumo final */
+var RS=[
+ {inc:["Tela 24\"","Player","CMS de mídia"],pz:"7 semanas"},
+ {inc:["Tudo do Essencial","4G e nobreak","Monitoramento"],pz:"9 semanas"},
+ {inc:["Tudo do Intermediário","Tela touch","Catálogo, leads e painel"],pz:"13 semanas",rec:1}
+];
+function rs(q){
+  $("#rs").innerHTML=SC.map(function(s,k){var t=tot(s,q),r=rent(s,q),x=RS[k];
+    return '<div class="rc3'+(x.rec?' rec':'')+'">'+(x.rec?'<span class="rbadge">Recomendado</span>':'')+
+    '<h3>'+s.n+'</h3><div class="inc">'+x.inc.map(function(c){return "<span>"+c+"</span>"}).join("")+'</div>'+
+    '<div class="pay"><span class="mono">Comprar</span><b>'+brl(t.imp/q)+'</b><small>por totem</small>'+
+    '<p><span>Total</span>'+brl(t.imp)+'</p><p><span>Mensal da rede</span>'+brl(t.mes)+'</p></div>'+
+    '<div class="pay alt"><span class="mono">Alugar</span><b>'+brl(r)+'</b><small>por totem, por mês</small>'+
+    '<p><span>Entrada</span>R$ 0</p><p><span>Mensal da rede</span>'+brl(r*q)+'</p></div>'+
+    '<p class="pz"><span>Prazo</span>'+x.pz+'</p></div>';}).join("");
 }
-seg($("#ivQ"),function(b){ivQ=+b.dataset.q;iv()});seg($("#ivS"),function(b){ivS=+b.dataset.k;iv()});iv();
-$("#ivTg").addEventListener("click",function(){var o=$("#iv").classList.toggle("itens");this.textContent=o?"Ver resumo":"Ver itens";});
 
 /* locação */
 var lcQ=50,lcS=1;
@@ -338,30 +222,7 @@ function lc(){var s=SC[lcS],t=tot(s,lcQ),r=rent(s,lcQ);
   $("#lcCross").textContent=cross<=36?"Alugar sai na frente até o mês "+cross:"Alugar sai na frente os 36 meses";
 }
 seg($("#lcQ"),function(b){lcQ=+b.dataset.q;lc()});seg($("#lcS"),function(b){lcS=+b.dataset.k;lc()});lc();
-
-/* 18 recomendação */
-function rc(q){$("#rcA1").textContent=brl(6200);$("#rcA2").textContent=brl(7400);$("#rcB1").textContent=brl(9300);
-  $("#rcSave").textContent=brl((7400-3100)*q);}
-seg($("#rcQ"),function(b){rc(+b.dataset.q)});rc(50);
-ENTER[19]=function(sec){$$(".rp-bar i",sec).forEach(function(x){x.style.animation="none";x.offsetWidth;x.style.animation=""})};
-
-/* 19 cronograma */
-var GT=[
- [["Validação e cotação formal","todos",1,2,""],["Protótipo de fábrica","1 totem completo",2,3,"h"],["Compra das telas","estoque nacional",2,5,""],["CMS e conteúdo de lançamento","75 LAB",3,5,"t"],["Integração em série e teste","fábrica NEOBAND",5,6,"h"],["Instalação e ativação","em ondas por região",6,7,"l"],["Operação assistida","primeiras semanas no ar",7,8,"gh"]],
- [["Validação e cotação formal","todos",1,2,""],["Protótipo de fábrica","1 totem completo",2,4,"h"],["Compra das telas","24/7 com vidro",3,7,""],["CMS e conteúdo de lançamento","75 LAB",3,6,"t"],["Integração em série e teste 48 h","fábrica NEOBAND",7,8,"h"],["Instalação e ativação","em ondas por região",8,9,"l"],["Operação assistida","primeiras semanas no ar",9,10,"gh"]],
- [["Validação e cotação formal","todos",1,2,""],["Protótipo de fábrica","1 totem completo",2,4,"h"],["Compra das telas touch","lote importado",3,8,""],["CMS e conteúdo de lançamento","75 LAB",3,6,"t"],["Plataforma touch","design, catálogo, leads, painel",3,11,"t"],["Integração em série e teste 48 h","fábrica NEOBAND",8,10,"h"],["Instalação e ativação","em ondas por região",10,12,"l"],["Catálogo no ar","operação assistida",12,14,"t"]]
-];
-function gt(k){var h='<div class="h l">Etapa</div>';for(var w=1;w<=14;w++)h+='<div class="h">S'+w+'</div>';
-  GT[k].forEach(function(r,j){h+='<div class="n">'+r[0]+'<small>'+r[1]+'</small></div>';
-    for(var w=1;w<=14;w++){h+='<div class="cl">'+(w===r[2]?'<span class="bx '+r[4]+'" style="width:calc('+(r[3]-r[2]+1)+'00% + '+(r[3]-r[2])+'px);animation-delay:'+(j*80)+'ms"></span>':'')+'</div>';}});
-  $("#gantt").innerHTML=h;}
-seg($("#gtS"),function(b){gt(+b.dataset.k)});gt(2);
-
-/* 20 próximos passos */
-var NX=[["Decisão","Quantidade final"],["Decisão","Desenho escolhido"],["Decisão","Touch ou não"],["Decisão","Comprar ou alugar"],
- ["Lojas","Lista de lojas"],["Lojas","Rede e tomada"],["Conteúdo","Quem publica"],["Conteúdo","Base de produtos"],["Dados","Destino do lead"],["Prazo","Data alvo"]];
-$("#nxList").innerHTML=NX.map(function(n,k){return '<button class="nq" data-k="'+k+'"><i></i><span><span class="grp">'+n[0]+'</span><b>'+n[1]+'</b></span></button>'}).join("");
-$("#nxList").addEventListener("click",function(e){var b=e.target.closest(".nq");if(!b)return;b.classList.toggle("ok");$("#nxC").textContent=$$("#nxList .ok").length+" de "+NX.length;});
+seg($("#rsQ"),function(b){rs(+b.dataset.q)});rs(50);
 
 /* lightbox */
 var lb=$("#lb");

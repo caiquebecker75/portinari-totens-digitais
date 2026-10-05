@@ -702,3 +702,29 @@ h2.sm{font-size:66px}
 .k3 .big{height:100px}
 .k2 .pd .mrb{height:74px}
 .k4 .qr{width:112px;height:112px}
+/* resumo final */
+.rs-hd{flex-direction:row;align-items:flex-end;justify-content:space-between}
+.rs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}
+.rc3{position:relative;border:2px solid var(--ink);padding:22px 24px;display:flex;flex-direction:column;gap:14px}
+.rc3 h3{font-family:var(--fdisp);font-weight:900;font-size:46px;text-transform:uppercase;letter-spacing:-.02em;line-height:1}
+.rc3 .inc{display:flex;flex-wrap:wrap;gap:6px;min-height:62px;align-content:flex-start}
+.rc3 .inc span{font-size:12.5px;padding:6px 10px;background:var(--fill);border-left:3px solid var(--teal)}
+.rc3 .pay{display:flex;flex-direction:column;gap:2px;border-top:2px solid var(--ink);padding-top:12px}
+.rc3 .pay .mono{color:var(--teal);margin-bottom:4px}
+.rc3 .pay b{font-family:var(--fdisp);font-weight:900;font-size:50px;letter-spacing:-.02em;line-height:1}
+.rc3 .pay small{font-family:var(--fmono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin-bottom:6px}
+.rc3 .pay p,.rc3 .pz{display:flex;justify-content:space-between;font-size:14px;padding:4px 0;font-variant-numeric:tabular-nums}
+.rc3 .pay p span,.rc3 .pz span{font-family:var(--fmono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);padding-top:3px}
+.rc3 .pz{border-top:2px solid var(--ink);padding-top:12px;margin-top:auto;font-weight:700}
+.rc3.rec{background:var(--ink);color:var(--paper);border-color:var(--ink);--soft:rgba(242,241,233,.6);--fill:rgba(242,241,233,.08)}
+.rc3.rec .pay,.rc3.rec .pz{border-top-color:rgba(242,241,233,.35)}
+.rc3.rec .pay .mono{color:var(--lime)}
+.rc3.rec .pay.alt b{color:var(--lime)}
+.rc3.rec .inc span{border-left-color:var(--lime)}
+.rbadge{position:absolute;top:-2px;right:-2px;background:var(--lime);color:var(--ink);font-family:var(--fmono);font-weight:700;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;padding:7px 12px}
+.rc3{padding:18px 22px;gap:10px}
+.rc3 .inc{min-height:0}
+.rc3 .pay{padding-top:10px}
+.rc3 .pay b{font-size:44px}
+.rc3 .pay p,.rc3 .pz{padding:2px 0}
+.rc3 .pz{padding-top:10px}
