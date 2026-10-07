@@ -54,7 +54,7 @@ EXTRA_CSS = """
 """
 
 TOKENS = ["LOGO75", "L75W", "NEOBAND", "NEOBANDW", "PORTINARI", "LOJA", "QR",
-          "T1A", "T1B", "T2A", "T2B", "T3A", "T3B"]
+          "T1A", "T1B", "T2A", "T2B", "T3A", "T3B", "P24", "P27", "P32"]
 
 
 def main():

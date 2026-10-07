@@ -3,6 +3,7 @@
 var $=function(s,c){return (c||document).querySelector(s)};
 var $$=function(s,c){return [].slice.call((c||document).querySelectorAll(s))};
 var brl=function(n){return "R$ "+Math.round(n).toLocaleString("pt-BR")};
+var brlc=function(n){return "R$ "+n.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})};
 var milh=function(n){return Math.round(n).toLocaleString("pt-BR")};
 
 /* cursor em dois tons */
@@ -17,7 +18,7 @@ function fit(){var s=Math.min(innerWidth/1600,innerHeight/900);if(!(s>0))s=1;sta
 addEventListener("resize",fit);fit();
 
 var slides=$$(".slide"),N=slides.length,i=0,busy=false;
-var TITLES=["Totens digitais Portinari","O desafio","Os três desenhos","Tipo de tela","Anatomia do totem","Rede e energia","Gestão remota de mídia","Experiência touch","Locação","Resumo do investimento"];
+var TITLES=["Totens digitais Portinari","O desafio","Os três desenhos","As telas orçadas","Anatomia do totem","Rede e energia","Gestão remota de mídia","Experiência touch","Locação","Resumo do investimento"];
 
 function chrome(){
   var dark=slides[i].classList.contains("dark");
@@ -57,9 +58,9 @@ seg($("#dsSeg"),function(b){$("#dsCard").classList.toggle("real",b.dataset.k==="
 /* 04 desenhos */
 var IMG={t1a:"__T1A__",t1b:"__T1B__",t2a:"__T2A__",t2b:"__T2B__",t3a:"__T3A__",t3b:"__T3B__"};
 var DZ=[
- {a:"t1a",b:"t1b",big:'Tela esticada <em>43"</em>',rows:[["Altura","34 a 140 cm do chão"],["Uso","Só mídia"],["Tela","R$ 8.000 a 12.000"]],read:"O mais impactante e o mais caro. Não serve para touch."},
- {a:"t2a",b:"t2b",big:'Tela <em>24"</em> vertical',rows:[["Altura","87 a 140 cm do chão"],["Uso","Mídia ou touch"],["Tela","R$ 1.500 a 2.900"]],read:"A base mais segura para os três cenários."},
- {a:"t3a",b:"t3b",big:'Tela <em>24"</em> vertical',rows:[["Altura","87 a 140 cm do chão"],["Uso","Mídia ou touch, com folder"],["Tela","R$ 1.500 a 2.900"]],read:"Mesma tela da opção 2, com folder físico ao lado."}
+ {a:"t1a",b:"t1b",big:'Tela esticada <em>43"</em>',rows:[["Altura","34 a 140 cm do chão"],["Uso","Só mídia"],["Tela","Fora do orçamento"]],read:"Pede uma tela que não está entre as quatro orçadas."},
+ {a:"t2a",b:"t2b",big:'Tela <em>24"</em> vertical',rows:[["Altura","85 a 140 cm do chão"],["Uso","Touch"],["Tela","R$ 5.090,91"]],read:"Recebe a 24\" do orçamento, na altura certa do toque."},
+ {a:"t3a",b:"t3b",big:'Tela <em>24"</em> vertical',rows:[["Altura","85 a 140 cm do chão"],["Uso","Touch, com folder"],["Tela","R$ 5.090,91"]],read:"Mesma tela da opção 2, com folder físico ao lado."}
 ];
 function dz(k){var d=DZ[k],box=$(".dz-imgs");box.classList.add("sw");
   setTimeout(function(){$("#dzA").src=IMG[d.a];$("#dzB").src=IMG[d.b];box.classList.remove("sw")},220);
@@ -68,29 +69,40 @@ function dz(k){var d=DZ[k],box=$(".dz-imgs");box.classList.add("sw");
   $("#dzRead").textContent=d.read;}
 seg($("#dzSeg"),function(b){dz(+b.dataset.k)});dz(1);
 
-/* 06 tipos de tela */
-var TL=[
- {b:[["Brilho",30,"500 nits"],["Uso",100,"24/7"],["Garantia",100,"3 anos"],["Custo 24\"",28,"R$ 1.500 a 2.900"]],w:"Loja com luz interna. O caso Portinari."},
- {b:[["Brilho",100,"2.500 nits"],["Uso",100,"24/7"],["Garantia",100,"3 anos"],["Custo 24\"",56,"R$ 3.500 a 5.500"]],w:"Só se o totem pegar sol ou vitrine."},
- {b:[["Brilho",26,"450 nits"],["Uso",100,"24/7"],["Garantia",60,"1 a 3 anos"],["Custo 24\"",58,"R$ 3.800 a 5.800"]],w:"Catálogo e leads. Cenário Interativo."},
- {b:[["Vidro",100,"4 a 6 mm"],["Uso",100,"24/7"],["Garantia",100,"da tela"],["Custo extra",10,"+ R$ 400 a 900"]],w:"Corredor sem vendedor por perto."}
+/* 04 telas orçadas */
+var TS=[
+ {n:'21,5"',p:4000,w:29.7,h:50,ph:"__P24__",sp:["IPS Full HD","Touch 10 pontos","Android 15","4 GB · 64 GB","Webcam","Wi-Fi · Bluetooth 5.0","Bateria interna"]},
+ {n:'24"',p:5090.91,w:32.8,h:55.5,ph:"__P24__",sp:["IPS Full HD","Touch 10 pontos","Android","4 GB · 64 GB","Webcam","USB-C · HDMI","Bateria 10.000 mAh"]},
+ {n:'27"',p:6545.45,w:36.5,h:61.5,ph:"__P27__",sp:["IPS Full HD antirreflexo","Touch 10 pontos","Octa-core","6 GB · 128 GB","Webcam","Bateria 4 a 5 h"]},
+ {n:'32"',p:7454.55,w:42.5,h:71.5,ph:"__P32__",sp:["IPS Full HD antirreflexo","Touch 10 pontos","Android","6 GB · 128 GB","Webcam 5 MP","Bateria 4 a 5 h"]}
 ];
-function tl(k){var t=TL[k];
-  $("#tlBars").innerHTML=t.b.map(function(b){return '<div class="bar"><span class="k">'+b[0]+'</span><span class="t"><i style="width:0" data-w="'+b[1]+'"></i></span><span class="v">'+b[2]+'</span></div>'}).join("");
-  requestAnimationFrame(function(){requestAnimationFrame(function(){$$("#tlBars i").forEach(function(x){x.style.width=x.dataset.w+"%"})})});
-  $("#tlWhen").textContent=t.w;}
-seg($("#tlList"),function(b){tl(+b.dataset.k)});tl(0);
-ENTER[3]=function(){tl(+$("#tlList .sel").dataset.k)};
+function cabe(t){return t.w<=36?0:(t.w<=38?1:2)}
+$("#tsList").innerHTML=TS.map(function(t,k){return '<button data-k="'+k+'"'+(k===1?' class="sel"':'')+'><b>'+t.n+'</b><span>'+brlc(t.p)+'</span></button>'}).join("");
+function ts(k){var t=TS[k],S=3.2,fl=580,cx=150,pw=40,ptop=fl-160*S,f=cabe(t),need=Math.ceil(t.w+4);
+  var sy=ptop+20*S,o='';
+  o+='<rect class="sz-base" x="'+(cx-35*S)+'" y="'+(fl-20*S)+'" width="'+70*S+'" height="'+20*S+'"/>';
+  o+='<rect class="sz-st" x="'+(cx-pw*S/2)+'" y="'+ptop+'" width="'+pw*S+'" height="'+140*S+'"/>';
+  if(f===2)o+='<rect x="'+(cx-need*S/2)+'" y="'+ptop+'" width="'+need*S+'" height="'+140*S+'" fill="none" stroke="#D9442E" stroke-width="2" stroke-dasharray="6 5"/>';
+  o+='<rect class="sz-scr'+(f===2?' no':'')+'" x="'+(cx-t.w*S/2)+'" y="'+sy+'" width="'+t.w*S+'" height="'+t.h*S+'"/>';
+  o+='<text x="'+cx+'" y="'+(ptop+12*S)+'" text-anchor="middle" font-family="Space Grotesk" font-size="16" font-weight="500" fill="#2b2b2b">portinari</text>';
+  o+='<text class="sz-t" x="'+cx+'" y="'+(ptop-10)+'" text-anchor="middle">chapa 40 cm</text>';
+  o+='<line x1="0" y1="'+fl+'" x2="300" y2="'+fl+'" stroke="#050505" stroke-width="2"/>';
+  $("#tsSvg").innerHTML=o;
+  var v=$("#tsVer");v.classList.toggle("no",f===2);v.classList.toggle("ju",f===1);
+  v.innerHTML=['<span class="disp">Cabe</span><p>Com folga na chapa de 40 cm.</p>','<span class="disp">Justo</span><p>Cabe, com 1,7 cm de cada lado.</p>','<span class="disp">Não cabe</span><p>Pede chapa de <b>'+need+' cm</b>.</p>'][f];
+  $("#tsSp").innerHTML=t.sp.map(function(x){return "<span>"+x+"</span>"}).join("");
+  $("#tsPh").src=t.ph;}
+seg($("#tsList"),function(b){ts(+b.dataset.k)});ts(1);
 
 /* 07 anatomia */
 var AN=[
- {x:441,y:112,t:"Vidro",h:"Vidro temperado",p:"3 a 4 mm, antirreflexo. No touch, é onde se toca."},
- {x:179,y:150,t:"Tela",h:"Tela 24\" vertical",p:"Presa por VESA numa moldura metálica. Nunca colada no MDF."},
- {x:490,y:150,t:"Caixa traseira",h:"Caixa de aço",p:"A chapa de 3 cm não esconde a tela. Precisa de 6 a 8 cm atrás."},
- {x:522,y:226,t:"Tampa",h:"Acesso por trás",p:"Tampa com chave. Troca sem desmontar a frente."},
- {x:490,y:380,t:"Cabos",h:"Cabos por dentro",p:"Nada aparente na frente nem nas laterais."},
- {x:179,y:508,t:"Base",h:"Base técnica",p:"Player, nobreak e 4G ventilados, com porta e chave."},
- {x:586,y:520,t:"Um cabo",h:"Um cabo só",p:"Da base até a tomada. O vendedor não mexe em nada."},
+ {x:441,y:112,t:"Bateria",h:"Bateria interna",p:"A própria tela segura de 4 a 5 horas sem energia."},
+ {x:179,y:150,t:"Tela touch",h:"Tela touch com Android",p:"Tela, toque e sistema num aparelho só. Sem player separado."},
+ {x:490,y:170,t:"Caixa traseira",h:"Caixa de aço",p:"A chapa de 3 cm não esconde a tela. Precisa de 6 a 8 cm atrás."},
+ {x:522,y:236,t:"Tampa",h:"Acesso por trás",p:"Tampa com chave. Troca sem desmontar a frente."},
+ {x:490,y:380,t:"Cabos",h:"Cabo por dentro",p:"Só a energia desce até a base. Nada aparente."},
+ {x:179,y:508,t:"Base",h:"Base técnica",p:"Fonte da tela ventilada, com porta e chave."},
+ {x:586,y:520,t:"Um cabo",h:"Um cabo só",p:"Da base até a tomada. A conexão é por Wi-Fi."},
  {x:48,y:508,t:"Estabilidade",h:"Estabilidade",p:"1,60 m de altura sobre 20 cm de base.",w:"Tomba fácil. Pede contrapeso de aço ou fixação no piso."}
 ];
 $("#anDots").innerHTML=AN.map(function(a,k){return '<g class="hs" data-k="'+k+'" transform="translate('+a.x+','+a.y+')"><circle class="pulse" r="13"/><circle r="13"/><text y="4">'+(k+1)+'</text></g>'}).join("");
@@ -101,18 +113,18 @@ function an(k){var a=AN[k];$$(".hs").forEach(function(h){h.classList.toggle("sel
 $("#anDots").addEventListener("click",function(e){var h=e.target.closest(".hs");if(h)an(+h.dataset.k)});
 $$(".hs").forEach(function(h){h.addEventListener("mouseenter",function(){an(+h.dataset.k)})});
 $("#anList").addEventListener("click",function(e){var b=e.target.closest("button");if(b)an(+b.dataset.k)});
-an(2);
+an(1);
 
 /* 09 rede e energia */
 var NE=[
- {t:"Cai a internet",st:{lkN2:"cut",ndRot:"alt",lkN1:"alt",ndCache:"ok",lkN3:"ok",ndTot:"ok"},s:{ndRotS:"4G assumiu",ndTotS:"tocando"},
-  l:[["0 s","Cai a internet da loja."],["30 s","O 4G assume sozinho."],["sempre","Sem sinal nenhum, segue tocando: o conteúdo está salvo."]]},
- {t:"Cai a energia",st:{ndTom:"err",lkE1:"cut",ndNob:"alt",lkE3:"alt",ndTot:"ok"},s:{ndRotS:"cabo · Wi-Fi · 4G",ndTotS:"no nobreak"},
-  l:[["0 s","Cai a energia."],["15 min","O nobreak segura e desliga com segurança."],["volta","Liga sozinho, na campanha certa."]]},
- {t:"O player trava",st:{ndTot:"err",ndCld:"alt",lkN1:"ok"},s:{ndRotS:"cabo · Wi-Fi · 4G",ndTotS:"travado"},
-  l:[["2 min","Reinicia sozinho."],["10 min","A 75 LAB religa a tomada a distância."],["3 dias","Player reserva chega. A loja só pluga."]]},
- {t:"A loja fecha",st:{ndTot:"dim",ndCache:"ok",lkN3:"ok"},s:{ndRotS:"cabo · Wi-Fi · 4G",ndTotS:"em repouso"},
-  l:[["22 h","Desliga sozinho."],["madrugada","Baixa as campanhas do dia."],["8 h","Liga sozinho."]]}
+ {t:"Cai a internet",st:{lkN2:"cut",ndWifi:"err",ndCache:"ok",lkN3:"ok",ndTot:"ok"},s:{ndTotS:"tocando"},
+  l:[["0 s","Cai o Wi-Fi da loja."],["sempre","Segue tocando: o conteúdo está salvo na tela."],["volta","Baixa sozinho as campanhas novas."]]},
+ {t:"Cai a energia",st:{ndTom:"err",lkE1:"cut",lkE2:"cut",ndBat:"alt",lkE3:"alt",ndTot:"ok"},s:{ndTotS:"na bateria"},
+  l:[["0 s","Cai a energia."],["4 a 5 h","A bateria interna segura a tela."],["volta","Recarrega e segue, sem botão."]]},
+ {t:"A tela trava",st:{ndTot:"err",ndCld:"alt",lkN1:"ok"},s:{ndTotS:"travada"},
+  l:[["0 s","O sistema trava."],["minutos","A 75 LAB reinicia pelo painel."],["dias","Se não voltar, visita técnica."]]},
+ {t:"A loja fecha",st:{ndTot:"dim",ndCache:"ok",lkN3:"ok"},s:{ndTotS:"em repouso"},
+  l:[["22 h","Apaga no horário."],["madrugada","Baixa as campanhas do dia."],["8 h","Acende sozinha."]]}
 ];
 var neT=[];
 function ne(k){var n=NE[k];neT.forEach(clearTimeout);neT=[];
@@ -167,52 +179,24 @@ kx.addEventListener("click",function(e){var b=e.target.closest("[data-to]");if(b
 $("#jr").addEventListener("click",function(e){var li=e.target.closest("li");if(li){kgo(+li.dataset.s);if(+li.dataset.s===6)$("#kxL").classList.add("ok");}});
 kgo(0);ENTER[7]=function(){kgo(0)};
 
-/* 16 a 18: cenários e investimento */
-var SC=[
- {n:"Essencial",tag:"mídia que roda sozinha",hw:3500,res:2550,mes:80,plat:0,platMes:0,
-  items:[["Tela 24\" profissional",1900],["Player Android de sinalização",650],["Protetor de surto e tomada inteligente",280],["Cabos, suporte VESA e ventilação",220],["Integração, configuração e teste",450]],
-  rec:[["CMS de mercado",45],["Suporte remoto 75 LAB",35]],
-  d:[["Incluído","Tela não touch, player, exibição de vídeos e imagens, gestão remota de mídia"],["Hardware","Tela 24\" profissional, player Android 4 GB, protetor de surto, tomada inteligente"],["Software","CMS de mercado com programação, monitoramento e relatório de exibição"],["Implantação","R$ 3.500 por totem"],["Recorrente","R$ 80 por totem, por mês"],["Prazo","6 a 8 semanas"]],
-  nums:[["Por totem","R$ 3.500"],["Por mês","R$ 80"],["Prazo","7 sem"]],for:"Lojas com cabo de rede e horário comercial.",
-  risk:["Sem 4G nem nobreak","Não mede resultado"],
-  r:"Serve para lojas com ponto de rede e horário comercial. Não indicado se a meta é provar resultado."},
- {n:"Intermediário",tag:"rede de mídia monitorada",hw:6200,res:4200,mes:160,plat:0,platMes:0,
-  items:[["Tela 24\" profissional 24/7 com vidro",2900],["Player robusto 8 GB",1300],["Roteador 4G com troca automática",480],["Nobreak 600 VA e protetor de surto",520],["Tomada inteligente, cabos e ventilação",380],["Integração, configuração e teste 48 h",620]],
-  rec:[["CMS com relatório de exibição",66],["Chip 4G de contingência",35],["Monitoramento e suporte 75 LAB",59]],
-  d:[["Incluído","Tudo do Essencial + contingência de rede e energia, monitoramento ativo e programação por loja, região, data e horário"],["Hardware","Tela 24\" profissional 24/7 com vidro temperado, player 8 GB, roteador 4G, nobreak"],["Software","CMS com programação avançada, comprovação de exibição por totem, alerta de offline e reinício remoto"],["Implantação","R$ 6.200 por totem"],["Recorrente","R$ 160 por totem, por mês"],["Prazo","8 a 10 semanas"]],
-  nums:[["Por totem","R$ 6.200"],["Por mês","R$ 160"],["Prazo","9 sem"]],for:"Uma rede de mídia que liga, atualiza e prova sozinha.",
-  risk:["4G fraco em algumas lojas","Sem catálogo e sem lead"],
-  r:"A base operacional certa para os 50 totens: fica ligado, atualiza sozinho e prova exibição."},
- {n:"Interativo",tag:"catálogo, lead e dado",hw:9300,res:6800,mes:160,plat:84000,platMes:2900,
-  items:[["Tela 24\" touch capacitivo",4900],["Mini PC 16 GB em modo quiosque",1900],["Roteador 4G com troca automática",480],["Nobreak 600 VA e protetor de surto",520],["Sensor de presença",280],["Tomada inteligente, cabos e ventilação",400],["Integração, configuração e teste 48 h",820]],
-  rec:[["CMS, chip 4G, monitoramento e suporte",160]],
-  d:[["Incluído","Tudo do Intermediário + tela touch, catálogo digital, QR, captação de leads e painel de dados"],["Hardware","Tela 24\" touch capacitivo, mini PC 16 GB, sensor de presença, 4G e nobreak"],["Software","Plataforma 75 LAB: catálogo, busca, leads com LGPD, envio ao vendedor ou CRM, painel admin e dashboard"],["Implantação","R$ 9.300 por totem + plataforma R$ 84 mil (R$ 10.980 por totem em 50)"],["Recorrente","R$ 160 por totem + R$ 2.900 por mês da plataforma"],["Prazo","12 a 14 semanas"]],
-  nums:[["Por totem","R$ 9.300"],["Por mês","R$ 160"],["Prazo","13 sem"]],for:"Gerar lead e saber o que o cliente procura. Mais a plataforma de R$ 84 mil.",
-  risk:["Catálogo precisa de dono","Lead precisa de resposta rápida"],
-  r:"Para quando o objetivo é lead e dado de interesse. Veja na tela 19 o caminho que evita comprar tela duas vezes."}
-];
-function tot(s,q){var kits=Math.ceil(q/10);var imp=s.hw*q+s.plat+kits*s.res;var mes=s.mes*q+s.platMes;return {imp:imp,mes:mes,kits:kits,t36:imp+36*mes};}
+/* orçamento ORC-33766 v2 */
+var SW=8900,HWG=1500,ASS=119;
+function tot(t,q){var imp=t.p*q+SW+HWG;return {imp:imp,mes:ASS*q,per:imp/q};}
+function rent(t,q){var m=tot(t,q).per*1.35/36+ASS;return Math.ceil(m/10)*10-1;}
 /* resumo final */
-var RS=[
- {inc:["Tela 24\"","Player","CMS de mídia"],pz:"7 semanas"},
- {inc:["Tudo do Essencial","4G e nobreak","Monitoramento"],pz:"9 semanas"},
- {inc:["Tudo do Intermediário","Tela touch","Catálogo, leads e painel"],pz:"13 semanas",rec:1}
-];
 function rs(q){
-  $("#rs").innerHTML=SC.map(function(s,k){var t=tot(s,q),r=rent(s,q),x=RS[k];
-    return '<div class="rc3'+(x.rec?' rec':'')+'">'+(x.rec?'<span class="rbadge">Recomendado</span>':'')+
-    '<h3>'+s.n+'</h3><div class="inc">'+x.inc.map(function(c){return "<span>"+c+"</span>"}).join("")+'</div>'+
-    '<div class="pay"><span class="mono">Comprar</span><b>'+brl(t.imp/q)+'</b><small>por totem</small>'+
-    '<p><span>Total</span>'+brl(t.imp)+'</p><p><span>Mensal da rede</span>'+brl(t.mes)+'</p></div>'+
+  $("#rs").innerHTML=TS.map(function(t,k){var o=tot(t,q),r=rent(t,q),f=cabe(t);
+    return '<div class="rc3'+(k===1?' rec':'')+'">'+(k===1?'<span class="rbadge">Recomendado</span>':'')+
+    '<h3>'+t.n+'</h3><span class="fitc f'+f+'">'+["Cabe no totem","Cabe justo","Pede redesenho"][f]+'</span>'+
+    '<div class="pay"><span class="mono">Comprar</span><b>'+brl(o.per)+'</b><small>por totem</small>'+
+    '<p><span>Tela</span>'+brlc(t.p)+'</p><p><span>Total</span>'+brlc(o.imp)+'</p><p><span>Assinatura/mês</span>'+brlc(o.mes)+'</p></div>'+
     '<div class="pay alt"><span class="mono">Alugar</span><b>'+brl(r)+'</b><small>por totem, por mês</small>'+
-    '<p><span>Entrada</span>R$ 0</p><p><span>Mensal da rede</span>'+brl(r*q)+'</p></div>'+
-    '<p class="pz"><span>Prazo</span>'+x.pz+'</p></div>';}).join("");
+    '<p><span>Entrada</span>R$ 0</p><p><span>Rede/mês</span>'+brl(r*q)+'</p></div></div>';}).join("");
 }
 
 /* locação */
-var lcQ=50,lcS=1;
-function rent(s,q){var t=tot(s,q);var m=(t.imp/q)*1.35/36+s.mes+s.platMes/q;return Math.ceil(m/10)*10-1;}
-function lc(){var s=SC[lcS],t=tot(s,lcQ),r=rent(s,lcQ);
+var lcQ=25,lcS=1;
+function lc(){var s=TS[lcS],t=tot(s,lcQ),r=rent(s,lcQ);
   $("#lcBuy0").textContent=brl(t.imp);$("#lcBuyM").textContent=brl(t.mes);
   $("#lcRent").textContent=brl(r);$("#lcRentS").textContent="por totem · "+brl(r*lcQ)+" na rede";
   var W=600,H=150,max=Math.max(t.imp+36*t.mes,r*lcQ*36)*1.05,px=function(m){return m/36*W},py=function(v){return H-v/max*H};
@@ -222,7 +206,7 @@ function lc(){var s=SC[lcS],t=tot(s,lcQ),r=rent(s,lcQ);
   $("#lcCross").textContent=cross<=36?"Alugar sai na frente até o mês "+cross:"Alugar sai na frente os 36 meses";
 }
 seg($("#lcQ"),function(b){lcQ=+b.dataset.q;lc()});seg($("#lcS"),function(b){lcS=+b.dataset.k;lc()});lc();
-seg($("#rsQ"),function(b){rs(+b.dataset.q)});rs(50);
+seg($("#rsQ"),function(b){rs(+b.dataset.q)});rs(25);
 
 /* lightbox */
 var lb=$("#lb");

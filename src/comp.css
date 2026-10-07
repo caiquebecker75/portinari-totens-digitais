@@ -728,3 +728,35 @@ h2.sm{font-size:66px}
 .rc3 .pay b{font-size:44px}
 .rc3 .pay p,.rc3 .pz{padding:2px 0}
 .rc3 .pz{padding-top:10px}
+/* telas orçadas */
+.ts{display:grid;grid-template-columns:330px 300px 1fr;gap:48px;align-items:center}
+.ts-list{display:flex;flex-direction:column;border-top:2px solid var(--ink)}
+.ts-list button{display:flex;align-items:baseline;justify-content:space-between;padding:18px 8px;border-bottom:1px solid var(--line);transition:.2s var(--ease)}
+.ts-list b{font-family:var(--fdisp);font-weight:900;font-size:52px;line-height:1}
+.ts-list span{font-family:var(--fmono);font-weight:700;font-size:13px;letter-spacing:.06em}
+.ts-list button:hover{padding-left:16px}
+.ts-list button.sel{background:var(--ink);color:var(--paper);padding-left:16px}
+.ts-list button.sel span{color:var(--lime)}
+.ts-fig svg{width:300px;height:520px;display:block;overflow:visible}
+.ts-r{display:flex;flex-direction:column;gap:20px}
+.sz-ver.ju{background:var(--honey2)}
+.ts-sp{display:flex;flex-wrap:wrap;gap:8px}
+.ts-sp span{font-family:var(--fmono);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:9px 12px;background:var(--paper2)}
+.ts-ph{height:190px;background:#fff;display:flex;align-items:center;justify-content:center;padding:10px}
+.ts-ph img{height:100%;width:auto;object-fit:contain}
+/* resumo 4 colunas */
+.rs4{grid-template-columns:repeat(4,1fr);gap:14px}
+.rs4 .rc3 h3{font-size:52px}
+.rs4 .rc3 .pay b{font-size:40px}
+.rs4 .rc3 .pay p{font-size:13px}
+.fitc{align-self:flex-start;font-family:var(--fmono);font-weight:700;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:5px 9px;background:var(--teal);color:#fff}
+.fitc.f1{background:var(--honey2)}
+.fitc.f2{background:var(--red)}
+.rs-all{display:flex;align-items:center;gap:28px;flex-wrap:wrap;background:var(--paper2);padding:12px 18px;font-size:14px}
+.rs-all .mono{color:var(--teal)}
+.rs-all b{font-weight:700}
+#tsSvg .sz-base{fill:#9a9a98}
+#tsSvg .sz-st{fill:var(--stone)}
+#tsSvg .sz-scr{fill:#111;transition:all .5s var(--ease)}
+#tsSvg .sz-scr.no{fill:rgba(217,68,46,.85)}
+#tsSvg .sz-t{font-family:var(--fmono);font-size:11px;font-weight:700;fill:var(--teal);letter-spacing:.06em}
