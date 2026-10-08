@@ -18,7 +18,7 @@ function fit(){var s=Math.min(innerWidth/1600,innerHeight/900);if(!(s>0))s=1;sta
 addEventListener("resize",fit);fit();
 
 var slides=$$(".slide"),N=slides.length,i=0,busy=false;
-var TITLES=["Totens digitais Portinari","O desafio","Os três desenhos","As telas orçadas","Anatomia do totem","Rede e energia","Gestão remota de mídia","Experiência touch","Locação","Resumo do investimento"];
+var TITLES=["Totens digitais Portinari","O desafio","Os três desenhos","As telas orçadas","Anatomia do totem","Rede e energia","Experiência touch","Investimento"];
 
 function chrome(){
   var dark=slides[i].classList.contains("dark");
@@ -72,9 +72,7 @@ seg($("#dzSeg"),function(b){dz(+b.dataset.k)});dz(1);
 /* 04 telas orçadas */
 var TS=[
  {n:'21,5"',p:4000,w:29.7,h:50,ph:"__P24__",sp:["IPS Full HD","Touch 10 pontos","Android 15","4 GB · 64 GB","Webcam","Wi-Fi · Bluetooth 5.0","Bateria interna"]},
- {n:'24"',p:5090.91,w:32.8,h:55.5,ph:"__P24__",sp:["IPS Full HD","Touch 10 pontos","Android","4 GB · 64 GB","Webcam","USB-C · HDMI","Bateria 10.000 mAh"]},
- {n:'27"',p:6545.45,w:36.5,h:61.5,ph:"__P27__",sp:["IPS Full HD antirreflexo","Touch 10 pontos","Octa-core","6 GB · 128 GB","Webcam","Bateria 4 a 5 h"]},
- {n:'32"',p:7454.55,w:42.5,h:71.5,ph:"__P32__",sp:["IPS Full HD antirreflexo","Touch 10 pontos","Android","6 GB · 128 GB","Webcam 5 MP","Bateria 4 a 5 h"]}
+ {n:'24"',p:5090.91,w:32.8,h:55.5,ph:"__P24__",sp:["IPS Full HD","Touch 10 pontos","Android","4 GB · 64 GB","Webcam","USB-C · HDMI","Bateria 10.000 mAh"]}
 ];
 function cabe(t){return t.w<=36?0:(t.w<=38?1:2)}
 $("#tsList").innerHTML=TS.map(function(t,k){return '<button data-k="'+k+'"'+(k===1?' class="sel"':'')+'><b>'+t.n+'</b><span>'+brlc(t.p)+'</span></button>'}).join("");
@@ -96,7 +94,7 @@ seg($("#tsList"),function(b){ts(+b.dataset.k)});ts(1);
 
 /* 07 anatomia */
 var AN=[
- {x:441,y:112,t:"Bateria",h:"Bateria interna",p:"A própria tela segura de 4 a 5 horas sem energia."},
+ {x:441,y:112,t:"Bateria",h:"Bateria interna",p:"A própria tela segue ligada quando cai a energia."},
  {x:179,y:150,t:"Tela touch",h:"Tela touch com Android",p:"Tela, toque e sistema num aparelho só. Sem player separado."},
  {x:490,y:170,t:"Caixa traseira",h:"Caixa de aço",p:"A chapa de 3 cm não esconde a tela. Precisa de 6 a 8 cm atrás."},
  {x:522,y:236,t:"Tampa",h:"Acesso por trás",p:"Tampa com chave. Troca sem desmontar a frente."},
@@ -120,7 +118,7 @@ var NE=[
  {t:"Cai a internet",st:{lkN2:"cut",ndWifi:"err",ndCache:"ok",lkN3:"ok",ndTot:"ok"},s:{ndTotS:"tocando"},
   l:[["0 s","Cai o Wi-Fi da loja."],["sempre","Segue tocando: o conteúdo está salvo na tela."],["volta","Baixa sozinho as campanhas novas."]]},
  {t:"Cai a energia",st:{ndTom:"err",lkE1:"cut",lkE2:"cut",ndBat:"alt",lkE3:"alt",ndTot:"ok"},s:{ndTotS:"na bateria"},
-  l:[["0 s","Cai a energia."],["4 a 5 h","A bateria interna segura a tela."],["volta","Recarrega e segue, sem botão."]]},
+  l:[["0 s","Cai a energia."],["horas","A bateria interna segura a tela."],["volta","Recarrega e segue, sem botão."]]},
  {t:"A tela trava",st:{ndTot:"err",ndCld:"alt",lkN1:"ok"},s:{ndTotS:"travada"},
   l:[["0 s","O sistema trava."],["minutos","A 75 LAB reinicia pelo painel."],["dias","Se não voltar, visita técnica."]]},
  {t:"A loja fecha",st:{ndTot:"dim",ndCache:"ok",lkN3:"ok"},s:{ndTotS:"em repouso"},
@@ -137,24 +135,6 @@ function ne(k){var n=NE[k];neT.forEach(clearTimeout);neT=[];
 }
 seg($("#neBtns"),function(b){ne(+b.dataset.k)});
 ENTER[5]=function(){$$("#neBtns button").forEach(function(b){b.classList.remove("sel")});$("#neBtns button").classList.add("sel");ne(0)};
-
-/* 12 CMS */
-var REG=[["SP Capital",14],["SP Interior",10],["Sul",11],["Sudeste",8],["Nordeste",7]],DIAS=["Seg","Ter","Qua","Qui","Sex","Sáb","Dom"];
-var CAMP=[
- {n:"Institucional Portinari",s:"toda a rede · o dia todo",c:"#A49183",on:function(r,d){return true}},
- {n:"Lançamento Bruma",s:"SP e Sul · todos os dias",c:"#06C6AE",on:function(r,d){return r<=2}},
- {n:"Feirão de fim de mês",s:"Sul · sexta a domingo",c:"#C0EE4E",on:function(r,d){return r===2&&d>=4}},
- {n:"Noite do arquiteto",s:"SP Capital · quinta, 18 h a 21 h",c:"#F2F1E9",on:function(r,d){return r===0&&d===3}}
-];
-$("#cmCamps").innerHTML='<button class="cp sel" data-k="-1"><i style="background:linear-gradient(90deg,#A49183,#06C6AE)"></i><span>Todas<small>4 campanhas ativas</small></span></button>'+
-  CAMP.map(function(c,k){return '<button class="cp" data-k="'+k+'"><i style="background:'+c.c+'"></i><span>'+c.n+'<small>'+c.s+'</small></span></button>'}).join("");
-var g='<div></div>'+DIAS.map(function(d){return '<div class="h">'+d+'</div>'}).join("");
-REG.forEach(function(r,ri){g+='<div class="r">'+r[0]+'<small>'+r[1]+' totens</small></div>';
-  DIAS.forEach(function(d,di){var act=CAMP.map(function(c,k){return c.on(ri,di)?k:-1}).filter(function(k){return k>=0});
-    g+='<div class="c" data-a2="'+act.join(",")+'" style="background:linear-gradient(180deg,'+act.map(function(k,j){var a=j/act.length*100,b=(j+1)/act.length*100;return CAMP[k].c+" "+a+"% "+b+"%"}).join(",")+');opacity:.9"></div>';});});
-$("#cmGrid").innerHTML=g;
-seg($("#cmCamps"),function(b){var k=b.dataset.k;
-  $$("#cmGrid .c").forEach(function(c){var has=k==="-1"||c.dataset.a2.split(",").indexOf(k)>=0;c.classList.toggle("fade",!has);c.classList.toggle("hl",has&&k!=="-1")});});
 
 /* 14 protótipo touch */
 var P_LOGO="__PORTINARI__",QR='__QR__';
@@ -177,37 +157,9 @@ kx.addEventListener("click",function(e){var b=e.target.closest("[data-to]");if(b
   if(e.target.closest("#kxSend")){if($("#kxL").classList.contains("ok"))kgo(6);else{var l=$("#kxL");l.style.outline="2px solid #D9442E";setTimeout(function(){l.style.outline=""},900);}}
 });
 $("#jr").addEventListener("click",function(e){var li=e.target.closest("li");if(li){kgo(+li.dataset.s);if(+li.dataset.s===6)$("#kxL").classList.add("ok");}});
-kgo(0);ENTER[7]=function(){kgo(0)};
+kgo(0);ENTER[6]=function(){kgo(0)};
 
 /* orçamento ORC-33766 v2 */
-var SW=8900,HWG=1500,ASS=119;
-function tot(t,q){var imp=t.p*q+SW+HWG;return {imp:imp,mes:ASS*q,per:imp/q};}
-function rent(t,q){var m=tot(t,q).per*1.35/36+ASS;return Math.ceil(m/10)*10-1;}
-/* resumo final */
-function rs(q){
-  $("#rs").innerHTML=TS.map(function(t,k){var o=tot(t,q),r=rent(t,q),f=cabe(t);
-    return '<div class="rc3'+(k===1?' rec':'')+'">'+(k===1?'<span class="rbadge">Recomendado</span>':'')+
-    '<h3>'+t.n+'</h3><span class="fitc f'+f+'">'+["Cabe no totem","Cabe justo","Pede redesenho"][f]+'</span>'+
-    '<div class="pay"><span class="mono">Comprar</span><b>'+brl(o.per)+'</b><small>por totem</small>'+
-    '<p><span>Tela</span>'+brlc(t.p)+'</p><p><span>Total</span>'+brlc(o.imp)+'</p><p><span>Assinatura/mês</span>'+brlc(o.mes)+'</p></div>'+
-    '<div class="pay alt"><span class="mono">Alugar</span><b>'+brl(r)+'</b><small>por totem, por mês</small>'+
-    '<p><span>Entrada</span>R$ 0</p><p><span>Rede/mês</span>'+brl(r*q)+'</p></div></div>';}).join("");
-}
-
-/* locação */
-var lcQ=25,lcS=1;
-function lc(){var s=TS[lcS],t=tot(s,lcQ),r=rent(s,lcQ);
-  $("#lcBuy0").textContent=brl(t.imp);$("#lcBuyM").textContent=brl(t.mes);
-  $("#lcRent").textContent=brl(r);$("#lcRentS").textContent="por totem · "+brl(r*lcQ)+" na rede";
-  var W=600,H=150,max=Math.max(t.imp+36*t.mes,r*lcQ*36)*1.05,px=function(m){return m/36*W},py=function(v){return H-v/max*H};
-  var pa="M0 "+py(0),pb="M0 "+py(t.imp);for(var m=1;m<=36;m++){pa+=" L"+px(m)+" "+py(r*lcQ*m);pb+=" L"+px(m)+" "+py(t.imp+t.mes*m);}
-  $("#lcSvg").innerHTML='<path class="lb" d="'+pb+'"/><path class="la" d="'+pa+'"/>';
-  var cross=Math.ceil(t.imp/(r*lcQ-t.mes));
-  $("#lcCross").textContent=cross<=36?"Alugar sai na frente até o mês "+cross:"Alugar sai na frente os 36 meses";
-}
-seg($("#lcQ"),function(b){lcQ=+b.dataset.q;lc()});seg($("#lcS"),function(b){lcS=+b.dataset.k;lc()});lc();
-seg($("#rsQ"),function(b){rs(+b.dataset.q)});rs(25);
-
 /* lightbox */
 var lb=$("#lb");
 document.addEventListener("click",function(e){var im=e.target.closest("img[data-lb]");if(im){$("img",lb).src=im.src;lb.classList.add("on");}});

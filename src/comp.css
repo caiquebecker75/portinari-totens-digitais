@@ -760,3 +760,28 @@ h2.sm{font-size:66px}
 #tsSvg .sz-scr{fill:#111;transition:all .5s var(--ease)}
 #tsSvg .sz-scr.no{fill:rgba(217,68,46,.85)}
 #tsSvg .sz-t{font-family:var(--fmono);font-size:11px;font-weight:700;fill:var(--teal);letter-spacing:.06em}
+/* resumo no formato do orçamento */
+.oq{display:flex;flex-direction:column;border-top:3px solid var(--ink)}
+.oq-h,.oq-r{display:grid;grid-template-columns:1fr 170px 70px 200px;gap:16px;align-items:center}
+.oq-h{padding:9px 0;border-bottom:2px solid var(--ink);font-family:var(--fmono);font-weight:700;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+.oq-h span:nth-child(n+2),.oq-r > span:nth-child(n+2){text-align:right}
+.oq-g{padding:12px 0 4px}
+.oq-g .mono{color:var(--teal)}
+.oq-r{padding:9px 0;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;font-size:16px}
+.oq-r > span:last-child{font-family:var(--fdisp);font-weight:900;font-size:28px;letter-spacing:-.01em}
+.oq-r > span:last-child em{font-style:normal;font-family:var(--fmono);font-size:11px;color:var(--soft);margin-left:4px}
+.oq-d{display:flex;align-items:center;gap:14px;text-align:left!important}
+.oq-d img{width:34px;height:52px;object-fit:contain;background:#fff;padding:2px}
+.oq-d b{font-size:17px;font-weight:700}
+.oq-d i{font-style:normal;font-family:var(--fmono);font-weight:700;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;background:var(--lime);color:var(--ink);padding:3px 7px;margin-left:10px;vertical-align:2px}
+.oq-d small{display:block;font-size:12.5px;color:var(--soft);margin-top:3px}
+.oq-ic{width:34px;height:34px;display:grid;place-items:center;background:var(--ink);color:var(--paper);font-family:var(--fmono);font-size:11px;font-weight:700;flex:none}
+.oq-r.rec{background:var(--paper2)}
+.oq-tot{display:grid;grid-template-columns:auto 1fr 1fr 1fr;gap:0;align-items:stretch;background:var(--ink);color:var(--paper)}
+.oq-tot .mono{color:var(--lime);padding:16px 22px;display:flex;align-items:center}
+.oq-tot div{padding:14px 22px;border-left:1px solid rgba(242,241,233,.15);display:flex;flex-direction:column;gap:4px}
+.oq-tot small{font-family:var(--fmono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(242,241,233,.6)}
+.oq-tot b{font-family:var(--fdisp);font-weight:900;font-size:34px;letter-spacing:-.01em}
+.oq-tot .rec b{color:var(--lime)}
+.oq-r{padding:7px 0}.oq-d img{height:44px;width:30px}
+.ts-fig svg{height:460px}
